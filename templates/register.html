@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register | Updown</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/register.css">
+    <script src="../static/js/register.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <div id="login-box">
+        <div class="left-box">
+            <h1> Sign Up</h1>
+                <form ... onsubmit="return checkForm(this);" action="/register" method="POST">
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="text" name="email" placeholder="Email"/>
+                    <input type="text" name="college" placeholder="College"/>
+                    <input type="password" name="pwd1" placeholder="Password">
+                    <input type="password" name="pwd2" placeholder="Confirm Password">
+                    <input type="submit" name="signup-button" value="Sign Up" onclick="checkpassword()">
+                    <a href="/"><p><u>Already have an account?</u></p></a>
+                </form>
+        </div>
+    </div>
+
+</body>
+</html>

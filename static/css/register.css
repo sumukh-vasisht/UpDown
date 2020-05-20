@@ -1,0 +1,88 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    background: url(../images/books4.png) no-repeat center fixed;
+    font-size: 16px;
+    color: #777;
+    font-family: sans-serif;
+    font-weight: 300;
+}
+
+#login-box
+{
+    position: relative;
+    margin: 5% auto;
+    margin-top: 17%;
+    height: 550px;
+    width: 300px;
+    background: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    opacity: 0.8;
+    box-shadow: 20px 20px 50px 15px black;
+}
+
+.left-box
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    background: black;
+    padding: 40px;
+    width: 300px;
+    height: 400px;
+}
+
+h1
+{
+    margin: 0 0 20px 0;
+    font-weight: 300;
+    font-size: 28px;
+    text-align: center;
+    color: white;
+}
+
+input[type="text"],
+input[type="password"]
+{
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 10%;
+    width: 225px;
+}
+
+input[type="submit"]
+{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #fb2525;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+    width: 225px;
+    margin-bottom: 20px;
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus
+{
+    background: #7171F4;
+    transition: 0.2s ease;
+    color: black;
+}
+
+p
+{
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+}

@@ -1,0 +1,59 @@
+.navbar {
+    width: 100%;
+    background-color: #222222;
+    overflow: auto;
+}
+
+.navbar .updown {
+    width: 50%;
+}
+  
+.navbar a {
+    float: left;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar li {
+    display: inline;
+    list-style: none;
+}
+  
+.navbar a:hover {
+    background-color: #7dabdb;
+}
+  
+.active {
+    background-color: #7dabdb;
+}
+  
+@media screen and (max-width: 800px) {
+    .navbar {
+        height: 10%;
+    }
+    .navbar .updown {
+      width: 5%;
+      visibility: hidden;
+    }
+    .navbar .textBlock {
+        visibility: hidden;
+        width: 10%;
+    }
+    .navbar a {
+        width: 10%;
+        /* margin-left: 10%; */
+        /* padding: 5px; */
+        padding-bottom: 2px;
+        padding-top: 4%;
+    }
+    .navbar .btn {
+        /* font-size: 0; */
+        color: transparent;
+    }
+    .navbar .btn > .fa {
+        color: white;
+    }
+}
+
