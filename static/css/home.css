@@ -1,11 +1,226 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
 body{
     margin: 0;
     padding: 0;
     background: url(../images/books4.png) no-repeat center fixed;
     background-size: cover;
     background-position: center;
-    font-family: sans-serif;
+    font-family: 'Roboto';
+    text-align:center;
+    font-weight:300;
+    font-size:32px;
+    /* padding-top:40px; */
+    height:100vh;
+    overflow:hidden;
+    /* -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    -webkit-transform: translate3d(0,0,0); */
 }
+
+/*------------------------------------------Animation Begins----------------------------*/
+
+.animation {
+    /* padding-top: 40px; */
+    margin-top: 20px;
+    display:inline-block;
+    overflow:hidden;
+    white-space:nowrap;
+    font-size: 35px;
+    color: white;
+}
+
+.animation:first-of-type {    /* For increasing performance 
+    ID/Class should've been used. 
+    For a small demo 
+    it's okaish for now */
+    animation: showup 7s infinite;
+}
+
+.animation:last-of-type {
+    width:0px;
+    animation: reveal 7s infinite;
+}
+
+.animation:last-of-type span {
+    margin-left:-355px;
+    animation: slidein 7s infinite;
+}
+
+@keyframes showup {
+    0% {opacity:0;}
+    20% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
+}
+
+@keyframes slidein {
+    0% { margin-left:-800px; }
+    20% { margin-left:-800px; }
+    35% { margin-left:0px; }
+    100% { margin-left:0px; }
+}
+
+@keyframes reveal {
+    0% {opacity:0;width:0px;}
+    20% {opacity:1;width:0px;}
+    30% {width:355px;}
+    80% {opacity:1;}
+    100% {opacity:0;width:355px;}
+}
+
+/*------------------------------------------Animation Ends----------------------------*/
+
+/*------------------------------------------Upload Button begins----------------------------*/
+
+.uploadWrapper{
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+.uploadLink_wrapper{
+    position: relative;
+}
+  
+.upbutton{
+    display: block;
+    width: 300px;
+    height: 75px;
+    line-height: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    background: #222222;
+    opacity: 80%;
+    text-align: center;
+    color: white;
+    font-size: larger;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    border: 3px solid #111111;
+    transition: all .35s;
+    padding-top: 10px;
+    top: 20%;
+    margin-bottom: 35px;
+    margin-top: 30px;
+}
+  
+.uploadIcon{
+    width: 75px;
+    height: 75px;
+    border: 3px solid transparent;
+    position: absolute;
+    transform: rotate(45deg);
+    right: 0;
+    top: 0;
+    z-index: -1;
+    transition: all .35s;
+    color: #222222;
+}
+  
+.uploadIcon svg{
+    width: 30px;
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    transform: rotate(-45deg);
+    fill: #222222;
+    transition: all .35s;
+}
+  
+  
+.upbutton:hover{
+    width: 250px;
+    border: 3px solid white;
+    background: transparent;
+    color: black;
+}
+  
+.upbutton:hover + .uploadIcon{
+    border: 3px solid white;
+    right: -25%;
+    color: black;
+}
+
+/*------------------------------------------Upload Button ends----------------------------*/
+
+/*------------------------------------------Download Button begins----------------------------*/
+
+.downloadWrapper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+.downloadLink_wrapper{
+    position: relative;
+}
+  
+.downbutton{
+    display: block;
+    width: 300px;
+    height: 75px;
+    line-height: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    background: #222222;
+    opacity: 80%;
+    text-align: center;
+    color: white;
+    font-size: larger;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    border: 3px solid #111111;
+    transition: all .35s;
+    padding-top: 10px;
+    top: 20%;
+    margin-bottom: 20px;
+    margin-top: 35px;
+}
+  
+.downloadIcon{
+    width: 75px;
+    height: 75px;
+    border: 3px solid transparent;
+    position: absolute;
+    transform: rotate(45deg);
+    right: 0;
+    top: 0;
+    z-index: -1;
+    transition: all .35s;
+    color: #222222;
+}
+  
+.downloadIcon svg{
+    width: 30px;
+    position: absolute;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    transform: rotate(-45deg);
+    fill: #222222;
+    transition: all .35s;
+}
+  
+  
+.downbutton:hover{
+    width: 250px;
+    border: 3px solid white;
+    background: transparent;
+    color: black;
+}
+  
+.downbutton:hover + .downloadIcon{
+    border: 3px solid white;
+    right: -25%;
+    color: black;
+}
+
+/*------------------------------------------Download Button ends----------------------------*/
+
+
+
   
 
  
