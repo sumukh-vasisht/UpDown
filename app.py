@@ -54,7 +54,7 @@ def login():
 def logout():
     return "HELLO"
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -89,8 +89,8 @@ def register():
             <p>Thank you for signing up at UP-DOWN!<br/>
             You can upload the resources you have and download those uploaded by others!<br/>
             Happy Learning!</p><br/>
-            <p>Regards,</p><br/>
-            <p>Admin,</p><br/>
+            <p>Regards,<br/>
+            <p>Admin,<br/>
             <p>UP-DOWN</p>
         </body>
 
