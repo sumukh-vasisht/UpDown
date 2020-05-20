@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 import json
 from datetime import timedelta
 import time
@@ -100,13 +100,15 @@ def sendQueryToAdmin(email, subject):
 @app.before_request
 def before_request():
     session.permanent = True
-    app .permanent_session_lifetime = timedelta(seconds=20)
+    app .permanent_session_lifetime = timedelta(minutes=10)
 
 @app.route('/')
 def home():
-    print("#")
-    print(session['token'])
-    return render_template('home.html')
+    if 'token' in session:
+        print(session['token'])
+        return render_template('home.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=["GET","POST"])
 def login():
@@ -126,64 +128,78 @@ def login():
 
 @app.route('/logout')
 def logout():
-    return "HELLO"
+    session.pop('token')
+    return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
+        # branch = request.form['branch']
+        # semester = request.form['semester']
         college = request.form['college']
         password = request.form['pwd1']
-        print(username, email, college, password)
-        senderAddress = "updown.updown.website@gmail.com"
-        senderPassword = "Updown123"
-        server = 'smtp.gmail.com:587'
-        recieverAddress = email
-        text = """
-        Dear %s,
+        # print(username, email, college, password)
+        auth.create_user_with_email_and_password(email,password)
+        db.collection(u'users').document(email).set({
+            'name':username,
+            'email':email,
+            # 'branch':branch,
+            # 'semester':semester,
+            'college':college
+        })
+        auth.send_email_verification(email)
+        return redirect(url_for('login', message="Please Check Your Email"))
+        # print(username, email, college, password)
+        # senderAddress = "updown.updown.website@gmail.com"
+        # senderPassword = "Updown123"
+        # server = 'smtp.gmail.com:587'
+        # recieverAddress = email
+        # text = """
+        # Dear %s,
 
-        Thank you for signing up at UP-DOWN!
-        You can upload the resources you have and download those uploaded by others!
-        Happy Learning!
+        # Thank you for signing up at UP-DOWN!
+        # You can upload the resources you have and download those uploaded by others!
+        # Happy Learning!
 
-        Regards,
-        Admin,
-        UP-DOWN
-        """ %username
+        # Regards,
+        # Admin,
+        # UP-DOWN
+        # """ %username
 
-        html = """
-        <html>
+        # html = """
+        # <html>
 
-        <head>
-        </head>
+        # <head>
+        # </head>
 
-        <body>
-            <p>Dear %s,</p>
-            <p>Thank you for signing up at UP-DOWN!<br/>
-            You can upload the resources you have and download those uploaded by others!<br/>
-            Happy Learning!</p><br/>
-            <p>Regards,<br/>
-            <p>Admin,<br/>
-            <p>UP-DOWN</p>
-        </body>
+        # <body>
+        #     <p>Dear %s,</p>
+        #     <p>Thank you for signing up at UP-DOWN!<br/>
+        #     You can upload the resources you have and download those uploaded by others!<br/>
+        #     Happy Learning!</p><br/>
+        #     <p>Regards,<br/>
+        #     <p>Admin,<br/>
+        #     <p>UP-DOWN</p>
+        # </body>
 
-        </html>
-        """ %username
+        # </html>
+        # """ %username
 
-        message = MIMEMultipart("alternative", None, [MIMEText(text), MIMEText(html,'html')])
-        message['Subject'] = "UP-DOWN | Sign-Up"
-        message['From'] = senderAddress
-        message['To'] = recieverAddress
-        server = smtplib.SMTP(server)
-        server.ehlo()
-        server.starttls()
-        server.login(senderAddress, senderPassword)
-        server.sendmail(senderAddress, recieverAddress, message.as_string())
-        print('Email Sent')
-        server.quit()
+        # message = MIMEMultipart("alternative", None, [MIMEText(text), MIMEText(html,'html')])
+        # message['Subject'] = "UP-DOWN | Sign-Up"
+        # message['From'] = senderAddress
+        # message['To'] = recieverAddress
+        # server = smtplib.SMTP(server)
+        # server.ehlo()
+        # server.starttls()
+        # server.login(senderAddress, senderPassword)
+        # server.sendmail(senderAddress, recieverAddress, message.as_string())
+        # print('Email Sent')
+        # server.quit()
 
-        return render_template('home.html')
+        # return render_template('home.html')
     return render_template('register.html')
 
 @app.route('/upload')
