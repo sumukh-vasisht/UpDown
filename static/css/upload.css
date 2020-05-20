@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
 body{
     margin: 0;
     padding: 0;
@@ -6,6 +8,32 @@ body{
     background-position: center;
     font-family: sans-serif;
 }
+
+.uploadSection {
+    background-color: #222222;
+    width: 50%;
+    height: auto;
+    margin-left: 25%;
+    margin-top: 20%;
+    border-radius: 2px;
+    padding-top: 10px;
+    padding-left: 10px;
+    opacity: 80%;
+}
+
+
+.uploadSection p {
+    color: white;
+    font-size: 20px;
+    font-family: "Roboto";
+    margin-top: 20px;
+
+}
+
+
+
+
+
   
 
  
