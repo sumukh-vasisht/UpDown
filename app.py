@@ -1,12 +1,17 @@
 from flask import Flask, render_template, request, redirect
 import json
 import pyrebase
+import firebase_admin as firebase
+from firebase_admin import firestore
 
-keyFile = open('firebaseKey.json','r')
+cred = firebase.credentials.Certificate("firebaseKey.json")
+keyFile = open('pyrebaseKey.json','r')
 keyJson = keyFile.read()
 key = json.loads(keyJson)
 
-firebase = pyrebase.initialize_app(key)
+firebase.initialize_app(cred)
+db = firestore.client()
+auth = pyrebase.initialize_app(key).auth()
 app = Flask(__name__)
 
 @app.route('/')
