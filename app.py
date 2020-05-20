@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for
 import json
 from datetime import timedelta
 import time
@@ -20,13 +20,15 @@ app.secret_key = "(TIJUUV_DBOOPU_DPEF)-1"
 @app.before_request
 def before_request():
     session.permanent = True
-    app .permanent_session_lifetime = timedelta(seconds=20)
+    app .permanent_session_lifetime = timedelta(minutes=10)
 
 @app.route('/')
 def home():
-    print("#")
-    print(session['token'])
-    return render_template('home.html')
+    if 'token' in session:
+        print(session['token'])
+        return render_template('home.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=["GET","POST"])
 def login():
@@ -46,17 +48,29 @@ def login():
 
 @app.route('/logout')
 def logout():
-    return "HELLO"
+    session.pop('token')
+    return redirect(url_for('login'))
 
 @app.route('/register')
 def register():
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
+        # branch = request.form['branch']
+        # semester = request.form['semester']
         college = request.form['college']
         password = request.form['pwd1']
-        print(username, email, college, password)
-        return render_template('home.html')
+        # print(username, email, college, password)
+        auth.create_user_with_email_and_password(email,password)
+        db.collection(u'users').document(email).set({
+            'name':username,
+            'email':email,
+            # 'branch':branch,
+            # 'semester':semester,
+            'college':college
+        })
+        auth.send_email_verification(email)
+        return redirect(url_for('login', message="Please Check Your Email"))
     return render_template('register.html')
 
 @app.route('/upload')
