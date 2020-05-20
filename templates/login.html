@@ -9,14 +9,15 @@
     <div class="loginbox">
     <img src="../static/images/avatar.png" class="avatar">
         <h1>Login</h1>
-        <form ... onsubmit="return checkForm(this);" action="/" method="POST">
+        <span style="text-align: center;">{{message}}</span>
+        <form ... onsubmit="return checkForm(this);" method="POST">
             <p>Username</p>
             <input type="text" name="username" placeholder="Enter the Username">
             <p>Password</p>
             <input type="password" name="password" placeholder="Enter the Password">
             <input type="submit" name="" value="Login" onclick="checkpassword()">
         </form>
-        {{ confirm }}<br>
+        
         <a href="/register"><u>Don't have an account yet?</u></a>
     </div>
 

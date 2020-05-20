@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import json
+from datetime import timedelta
+import time
 import pyrebase
 import firebase_admin as firebase
 from firebase_admin import firestore
@@ -13,15 +15,38 @@ firebase.initialize_app(cred)
 db = firestore.client() #USE FOR DATABASE
 auth = pyrebase.initialize_app(key).auth() #USE FOR AUTHENTICATION
 app = Flask(__name__)
+app.secret_key = "(TIJUUV_DBOOPU_DPEF)-1"
+
+@app.before_request
+def before_request():
+    session.permanent = True
+    app .permanent_session_lifetime = timedelta(seconds=20)
 
 @app.route('/')
+def home():
+    print("#")
+    print(session['token'])
+    return render_template('home.html')
+
+@app.route('/login', methods=["GET","POST"])
 def login():
+    message = ""
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        print(username, password)
-        return render_template('home.html')
-    return render_template('login.html')
+        try:
+            userData = auth.sign_in_with_email_and_password(username,password)
+            session['token'] = userData['idToken']
+            return redirect('/')
+        except Exception as e:
+            error = ""
+            error = json.loads(e.args[1])['error']['message']
+            message = error.replace('_',' ')
+    return render_template('login.html',message=message)
+
+@app.route('/logout')
+def logout():
+    return "HELLO"
 
 @app.route('/register')
 def register():
@@ -33,10 +58,6 @@ def register():
         print(username, email, college, password)
         return render_template('home.html')
     return render_template('register.html')
-
-@app.route('/home')
-def home():
-    return render_template('home.html')
 
 @app.route('/upload')
 def upload():
