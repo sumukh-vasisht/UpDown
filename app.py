@@ -5,6 +5,12 @@ import time
 import pyrebase
 import firebase_admin as firebase
 from firebase_admin import firestore
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+
 
 cred = firebase.credentials.Certificate("firebaseKey.json")
 keyFile = open('pyrebaseKey.json','r')
@@ -51,7 +57,7 @@ def logout():
     session.pop('token')
     return redirect(url_for('login'))
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -71,6 +77,55 @@ def register():
         })
         auth.send_email_verification(email)
         return redirect(url_for('login', message="Please Check Your Email"))
+        # print(username, email, college, password)
+        # senderAddress = "updown.updown.website@gmail.com"
+        # senderPassword = "Updown123"
+        # server = 'smtp.gmail.com:587'
+        # recieverAddress = email
+        # text = """
+        # Dear %s,
+
+        # Thank you for signing up at UP-DOWN!
+        # You can upload the resources you have and download those uploaded by others!
+        # Happy Learning!
+
+        # Regards,
+        # Admin,
+        # UP-DOWN
+        # """ %username
+
+        # html = """
+        # <html>
+
+        # <head>
+        # </head>
+
+        # <body>
+        #     <p>Dear %s,</p>
+        #     <p>Thank you for signing up at UP-DOWN!<br/>
+        #     You can upload the resources you have and download those uploaded by others!<br/>
+        #     Happy Learning!</p><br/>
+        #     <p>Regards,<br/>
+        #     <p>Admin,<br/>
+        #     <p>UP-DOWN</p>
+        # </body>
+
+        # </html>
+        # """ %username
+
+        # message = MIMEMultipart("alternative", None, [MIMEText(text), MIMEText(html,'html')])
+        # message['Subject'] = "UP-DOWN | Sign-Up"
+        # message['From'] = senderAddress
+        # message['To'] = recieverAddress
+        # server = smtplib.SMTP(server)
+        # server.ehlo()
+        # server.starttls()
+        # server.login(senderAddress, senderPassword)
+        # server.sendmail(senderAddress, recieverAddress, message.as_string())
+        # print('Email Sent')
+        # server.quit()
+
+        # return render_template('home.html')
     return render_template('register.html')
 
 @app.route('/upload')
