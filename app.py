@@ -128,7 +128,8 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.pop('token')
+    if 'token' in session:
+        session.pop('token')
     return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -149,8 +150,55 @@ def register():
             # 'semester':semester,
             'college':college
         })
-        auth.send_email_verification(email)
-        return redirect(url_for('login', message="Please Check Your Email"))
+        userData = auth.sign_in_with_email_and_password(email,password) 
+        auth.send_email_verification(userData['idToken'])
+        senderAddress = "updown.updown.website@gmail.com"
+        senderPassword = "Updown123"
+        server = 'smtp.gmail.com:587'
+        recieverAddress = email
+        text = """
+        Dear %s,
+
+        Thank you for signing up at UP-DOWN!
+        You can upload the resources you have and download those uploaded by others!
+        Happy Learning!
+
+        Regards,
+        Admin,
+        UP-DOWN
+        """ %username
+
+        html = """
+        <html>
+
+        <head>
+        </head>
+
+        <body>
+            <p>Dear %s,</p>
+            <p>Thank you for signing up at UP-DOWN!<br/>
+            You can upload the resources you have and download those uploaded by others!<br/>
+            Happy Learning!</p><br/>
+            <p>Regards,<br/>
+            <p>Admin,<br/>
+            <p>UP-DOWN</p>
+        </body>
+
+        </html>
+        """ %username
+
+        message = MIMEMultipart("alternative", None, [MIMEText(text), MIMEText(html,'html')])
+        message['Subject'] = "UP-DOWN | Sign-Up"
+        message['From'] = senderAddress
+        message['To'] = recieverAddress
+        server = smtplib.SMTP(server)
+        server.ehlo()
+        server.starttls()
+        server.login(senderAddress, senderPassword)
+        server.sendmail(senderAddress, recieverAddress, message.as_string())
+        print('Email Sent')
+        server.quit()
+        return redirect(url_for('login'))
     return render_template('register.html')
 
 @app.route('/upload')
