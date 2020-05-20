@@ -1,7 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    background: url(../images/books4.png) no-repeat center fixed;
+    background: url(../images/books4.png) no-repeat center;
     background-size: cover;
     background-position: center;
     font-family: sans-serif;
@@ -12,15 +12,16 @@ body{
     margin-left: 10%;
     width: 80%;
     background-color: #222222;
-    opacity: 70%;
+    opacity: 80%;
     color: white;
     text-align: center;
     border-radius: 2px;
     height: auto;
+    overflow: auto;
 }
 
 .loginbox h1 {
-    padding-top: 25px;
+    padding-top: 5px;
     font-weight: bolder;
     padding-bottom: 30px;
 }
