@@ -10,8 +10,8 @@ keyJson = keyFile.read()
 key = json.loads(keyJson)
 
 firebase.initialize_app(cred)
-db = firestore.client()
-auth = pyrebase.initialize_app(key).auth()
+db = firestore.client() #USE FOR DATABASE
+auth = pyrebase.initialize_app(key).auth() #USE FOR AUTHENTICATION
 app = Flask(__name__)
 
 @app.route('/')
