@@ -216,14 +216,18 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
-@app.route('/upload')
+@app.route('/upload',methods=['GET','POST'])
 def upload():
     if 'token' in session:
         if request.method == "POST":
             branch = request.form['branch']
             sem = request.form['semester']
-            files = request.files
+            files = request.files['file']
+            for f in files:
+                print(f)
         return render_template('upload.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/download')
 def download():
