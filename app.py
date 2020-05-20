@@ -220,7 +220,9 @@ def register():
 def upload():
     if 'token' in session:
         if request.method == "POST":
-            
+            branch = request.form['branch']
+            sem = request.form['semester']
+            files = request.files
         return render_template('upload.html')
 
 @app.route('/download')
