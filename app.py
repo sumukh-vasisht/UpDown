@@ -1,12 +1,9 @@
-import os
 from flask import Flask, render_template, request, redirect
-import urllib.request
-from flask import send_file
-from flask import g
-import hashlib
+import firebase_admin as firebase
 
+cred = firebase.credentials.Certificate("firebaseKey.json")
+firebase_admin.initialize_app(cred)
 app = Flask(__name__)
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/')
 def login():
