@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 import json
 from datetime import timedelta
 import time
@@ -22,6 +22,80 @@ db = firestore.client() #USE FOR DATABASE
 auth = pyrebase.initialize_app(key).auth() #USE FOR AUTHENTICATION
 app = Flask(__name__)
 app.secret_key = "(TIJUUV_DBOOPU_DPEF)-1"
+
+def sendQueryAckToUser(email, name):
+    senderAddress = "updown.updown.website@gmail.com"
+    senderPassword = "Updown123"
+    server = 'smtp.gmail.com:587'
+    recieverAddress1 = email
+    text1 = """
+    Dear %s,
+    Thank you for contacting us!
+    We whave recieved your message/query!
+    One of our teammates will get in tough with you shortly.
+    Thanks & Regards,
+    Admin,
+    UP-DOWN
+    """ %name
+    html1 = """
+    <html>
+    <head>
+    </head>
+    <body>
+        <p>Dear %s,</p>
+        <p>Thank you for signing up at UP-DOWN!<br/>
+        We whave recieved your message/query!<br/>
+        One of our teammates will get in tough with you shortly.</p><br/>
+        <p>Thanks & Regards,<br/>
+        <p>Admin,<br/>
+        <p>UP-DOWN</p>
+    </body>
+    </html>
+    """ %name
+    message = MIMEMultipart("alternative", None, [MIMEText(text1), MIMEText(html1,'html')])
+    message['Subject'] = "UP-DOWN | Contact"
+    message['From'] = senderAddress
+    message['To'] = recieverAddress1
+    server = smtplib.SMTP(server)
+    server.ehlo()
+    server.starttls()
+    server.login(senderAddress, senderPassword)
+    server.sendmail(senderAddress, recieverAddress1, message.as_string())
+    print('Email to User Sent')
+    server.quit()
+
+def sendQueryToAdmin(email, subject):
+    senderAddress = "updown.updown.website@gmail.com"
+    senderPassword = "Updown123"
+    server = 'smtp.gmail.com:587'
+    recieverAddress2 = "updown.updown.website@gmail.com"
+    text2 = """
+    You have got a query!
+    Sender : """ + email + """
+    Subject : %s
+    """  %subject
+    html2 = """
+    <html>
+    <head>
+    </head>
+    <body>
+        <p>You have recieved a query!<br/>
+        Sender : """ + str(email) + """ <br/>
+        Subject : %s</p><br/>
+    </body>
+    </html>
+    """  %subject
+    message = MIMEMultipart("alternative", None, [MIMEText(text2), MIMEText(html2,'html')])
+    message['Subject'] = "UP-DOWN | Contact"
+    message['From'] = senderAddress
+    message['To'] = recieverAddress2
+    server = smtplib.SMTP(server)
+    server.ehlo()
+    server.starttls()
+    server.login(senderAddress, senderPassword)
+    server.sendmail(senderAddress, recieverAddress2, message.as_string())
+    print('Email to Admin Sent')
+    server.quit()
 
 @app.before_request
 def before_request():
@@ -120,8 +194,16 @@ def upload():
 def download():
     return render_template('download.html')
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        subject = request.form['subject']
+        sendQueryAckToUser(email, name)
+        sendQueryToAdmin(email, subject)
+        flash('Query submitted! We will get in touch with you shortly.')
+        return render_template('contact.html')
     return render_template('contact.html')
 
 if __name__ == '__main__':

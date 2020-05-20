@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Home | Updown</title>
+    <title>Home | Contact</title>
     <link rel="stylesheet" type="text/css" href="../static/css/contact.css">
     <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
     <link rel="stylesheet" type="text/css" href="../static/css/navigationBar.css">
@@ -19,15 +19,15 @@
 
     <div class="loginbox">
             <h1>Contact</h1>
-            <form>
+            <form action="/contact" method="POST">
                 <p>Name</p>
                 <input type="text" name="name" placeholder="Enter your Name">
                 <p>Email ID</p>
                 <input type="text" name="email" placeholder="Enter your Email ID">
-                <p>Phone Number</p>
-                <input type="text" name="phoneNumber" placeholder="Enter your Phone Number">
+                <!-- <p>Phone Number</p>
+                <input type="text" name="phoneNumber" placeholder="Enter your Phone Number"> -->
                 <p>Subject</p>
-                <input type="text" name="phoneNumber" placeholder="Enter something ..." style="height: 100px;">
+                <input type="text" name="subject" placeholder="Enter something ..." style="height: 100px;">
                 <input type="submit" name="" value="Submit">
             </form>
         </div>
