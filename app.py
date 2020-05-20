@@ -105,31 +105,43 @@ def before_request():
 @app.route('/')
 def home():
     if 'token' in session:
-        print(session['token'])
+        # print(session['token'])
         return render_template('home.html')
     else:
         return redirect(url_for('login'))
 
 @app.route('/login', methods=["GET","POST"])
 def login():
-    message = ""
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        try:
-            userData = auth.sign_in_with_email_and_password(username,password)
-            session['token'] = userData['idToken']
-            return redirect('/')
-        except Exception as e:
-            error = ""
-            error = json.loads(e.args[1])['error']['message']
-            message = error.replace('_',' ')
-    return render_template('login.html',message=message)
+    if 'token' not in session:
+        message = ""
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            try:
+                userData = auth.sign_in_with_email_and_password(username,password)
+                userDetails = db.collection('users').document(username).get().to_dict()
+                print(userDetails)
+                session['name'] = userDetails['name']
+                session['email'] = userDetails['email']
+                session['college'] = userDetails['college']
+                session['token'] = userData['idToken']
+                print(dict(session))
+                return redirect('/')
+            except Exception as e:
+                error = ""
+                error = json.loads(e.args[1])['error']['message']
+                message = error.replace('_',' ')
+        return render_template('login.html',message=message)
+    else:
+        return redirect('/')
 
 @app.route('/logout')
 def logout():
     if 'token' in session:
         session.pop('token')
+        session.pop('name')
+        session.pop('email')
+        session.pop('college')
     return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -151,7 +163,10 @@ def register():
             'college':college
         })
         userData = auth.sign_in_with_email_and_password(email,password) 
-        auth.send_email_verification(userData['idToken'])
+        session['name'] = username
+        session['email'] = email
+        session['college'] = college
+        session['token'] = userData['idToken']
         senderAddress = "updown.updown.website@gmail.com"
         senderPassword = "Updown123"
         server = 'smtp.gmail.com:587'
@@ -211,15 +226,18 @@ def download():
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        subject = request.form['subject']
-        sendQueryAckToUser(email, name)
-        sendQueryToAdmin(email, subject)
-        flash('Query submitted! We will get in touch with you shortly.')
+    if 'token' in session:
+        if request.method == 'POST':
+            name = session['name']
+            email = session['email']
+            subject = request.form['subject']
+            sendQueryAckToUser(email, name)
+            sendQueryToAdmin(email, subject)
+            flash('Query submitted! We will get in touch with you shortly.')
+            return render_template('contact.html')
         return render_template('contact.html')
-    return render_template('contact.html')
+    else:
+        return redirect(url_for('login'))
 
 if __name__ == '__main__':
    app.run(debug = True)
