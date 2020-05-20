@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, redirect
-import firebase_admin as firebase
+import json
+import pyrebase
 
-cred = firebase.credentials.Certificate("firebaseKey.json")
-firebase.initialize_app(cred)
+keyFile = open('firebaseKey.json','r')
+keyJson = keyFile.read()
+key = json.loads(keyJson)
+
+firebase = pyrebase.initialize_app(key)
 app = Flask(__name__)
 
 @app.route('/')
@@ -43,4 +47,3 @@ def contact():
 
 if __name__ == '__main__':
    app.run(debug = True)
-   init_db()
