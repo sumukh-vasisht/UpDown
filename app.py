@@ -218,7 +218,10 @@ def register():
 
 @app.route('/upload')
 def upload():
-    return render_template('upload.html')
+    if 'token' in session:
+        if request.method == "POST":
+            
+        return render_template('upload.html')
 
 @app.route('/download')
 def download():
