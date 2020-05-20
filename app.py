@@ -4,7 +4,7 @@ from datetime import timedelta
 import time
 import pyrebase
 import firebase_admin as firebase
-from firebase_admin import firestore
+from firebase_admin import firestore, storage
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -17,8 +17,9 @@ keyFile = open('pyrebaseKey.json','r')
 keyJson = keyFile.read()
 key = json.loads(keyJson)
 
-firebase.initialize_app(cred)
+firebase.initialize_app(cred,{'storageBucket':'updown-nie.appspot.com'})
 db = firestore.client() #USE FOR DATABASE
+bucket = storage.bucket()
 auth = pyrebase.initialize_app(key).auth() #USE FOR AUTHENTICATION
 app = Flask(__name__)
 app.secret_key = "(TIJUUV_DBOOPU_DPEF)-1"
@@ -96,6 +97,13 @@ def sendQueryToAdmin(email, subject):
     server.sendmail(senderAddress, recieverAddress2, message.as_string())
     print('Email to Admin Sent')
     server.quit()
+
+def allowed(filename):
+    allowed_extensions = ['PDF','pdf']
+    strList = filename.split('.')
+    if len(strList) == 2 and strList[1] in allowed_extensions:
+        return True
+    return False
 
 @app.before_request
 def before_request():
@@ -219,18 +227,35 @@ def register():
 @app.route('/upload',methods=['GET','POST'])
 def upload():
     if 'token' in session:
+        message = ""
         if request.method == "POST":
             branch = request.form['branch']
             sem = request.form['semester']
-            files = request.files['file']
+            files = request.files.getlist('file')
+            invalids = []
             for f in files:
-                print(f)
-        return render_template('upload.html')
+                if allowed(f.filename):
+                    blob = bucket.blob(f'{branch}/{sem}/{f.filename}')
+                    blob.upload_from_file(f)
+                else:
+                    invalids.append(f.filename)
+            if len(invalids)>0:
+                message = "The following files have invalid extensions. "+', '.join(invalids) + ". The only allowed extension is pdf."
+            else:
+                message = "All files uploaded successfully"
+        return render_template('upload.html', message = message)
     else:
         return redirect(url_for('login'))
 
-@app.route('/download')
+@app.route('/download',methods=["GET","POST"])
 def download():
+    if request.method == "POST":
+        branch = request.form['branch']
+        sem = request.form['semester']
+        filenames = []
+        files = bucket.list_blobs(prefix=f'{branch}/{sem}')
+        for f in files:
+            print(f.name) 
     return render_template('download.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
