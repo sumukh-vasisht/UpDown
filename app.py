@@ -226,12 +226,8 @@ def upload():
             for f in files:
                 print(f)
         return render_template('upload.html')
-<<<<<<< HEAD
     else:
         return redirect(url_for('login'))
-=======
-    return render_template('upload.html')
->>>>>>> a803509cc4c4cd49dbc312ff0786a1f6140bcdbb
 
 @app.route('/download')
 def download():
