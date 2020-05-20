@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect
 import firebase_admin as firebase
 
 cred = firebase.credentials.Certificate("firebaseKey.json")
-firebase_admin.initialize_app(cred)
+firebase.initialize_app(cred)
 app = Flask(__name__)
 
 @app.route('/')
