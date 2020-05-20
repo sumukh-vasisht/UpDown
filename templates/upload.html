@@ -16,26 +16,28 @@
 <body>
 
     <script language="javascript" type="text/javascript" src="../static/navAndFooter/navUpload.txt"></script>
-    <form method="post">
-        <select name="branch">
-            <option value="CSE">CSE</option>
-            <option value="ISE">ISE</option>
-            <option value="ECE">ECE</option>
-            <option value="EEE">EEE</option>
-            <option value="MECH">MECH</option>
-            <option value="IPE">IPE</option>
-            <option value="CIVIL">CIVIL</option>
-        </select>
-        <select name="semester">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-        </select>
+    <form class = "uploadSection" method="POST">
+        <p>Select Branch</p><br/>
+            <select>
+                <option value="CSE">CSE</option>
+                <option value="ISE">ISE</option>
+                <option value="EEE">EEE</option>
+                <option value="IPE">IPE</option>
+                <option value="CIVIL">CIVIL</option>
+                <option value="MECH">MECH</option>
+                <option value="ECE">ECE</option>
+            </select>
+        <p>Select Semester</p><br/>
+            <select class = "sem" name = "semester">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
         <input type="file" name="file" multiple>
         <input type="submit" value="Submit">
     </form>

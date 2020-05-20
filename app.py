@@ -224,6 +224,7 @@ def upload():
             sem = request.form['semester']
             files = request.files
         return render_template('upload.html')
+    return render_template('upload.html')
 
 @app.route('/download')
 def download():
