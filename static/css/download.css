@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
 body{
     margin: 0;
     padding: 0;
@@ -6,6 +8,94 @@ body{
     background-position: center;
     font-family: sans-serif;
 }
+
+.uploadSection {
+    background-color: #222222;
+    width: 50%;
+    height: 50%;
+    margin-left: 25%;
+    margin-top: 7%;
+    border-radius: 2px;
+    padding-top: 10px;
+    padding-left: 2%;
+    padding-right: 2%;
+    opacity: 80%;
+}
+
+
+.uploadSection .title {
+    color: white;
+    font-size: 20px;
+    font-family: "Roboto";
+    margin-top: 13px;
+    margin-bottom: 0px;
+}
+
+select {
+    background-color: white;
+    width: 200px;
+}
+
+.sem {
+    margin-bottom: 20px;
+}
+
+input[type="submit"] {
+    position: relative;
+    border: 1px solid white;
+    outline: none;
+    height: 40px;
+    background: transparent;
+    color: #fff;
+    font-size: 18px;
+    /* border-radius: 20px; */
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    font-family: "Roboto";
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus
+{
+    background: #7dabdb;
+    transition: 0.2s ease;
+    color: black;
+    border: 1px solid black;
+}
+
+.dandd {
+    width: 200px;
+    margin-left: 50%;
+    display: inline;
+}
+
+.dandd .boxPara {
+    font-size: 15px;
+    color: white;
+}
+
+
+@media screen and (max-width: 800px) {
+
+    .uploadSection {
+        margin-top: 20%;
+        width: 60%;
+        margin-left: 20%;
+    }
+
+    select {
+        width: 170px;
+    }
+
+    .dandd {
+        display: none;
+    }
+
+}
+
+
+
   
 
  
