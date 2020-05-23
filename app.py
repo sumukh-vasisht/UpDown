@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for, flash
+from flask import Flask, render_template, request, redirect, session, url_for, flash, send_file, send_from_directory
 import json
 
 from datetime import timedelta
@@ -27,7 +27,7 @@ db = firestore.client() #USE FOR DATABASE
 bucket = storage.bucket()
 auth = pyrebase.initialize_app(key).auth() #USE FOR AUTHENTICATION
 app = Flask(__name__)
-app.secret_key = "(TIJUUV_DBO_DPEF)-1" #Sunuffabich
+app.secret_key = "(TIJUUV_DBOOPU_DPEF)-1" #Sunuffabich
 
 def sendQueryAckToUser(email, name):
     senderAddress = "updown.updown.website@gmail.com"
@@ -257,16 +257,33 @@ def download():
     if request.method == "POST":
         branch = request.form['branch']
         sem = request.form['semester']
-        filenames = []
-        files = bucket.list_blobs(prefix=f'{branch}/{sem}')
-        for f in files:
-            print(f.name)
-            name = f.name.split('/')[2]
-            string = f.download_as_string()
-            pdfFileObj = open(f'{name}', 'wb')
-            pdfFileObj.write(string)
-            pdfFileObj.close()
+        return redirect(f'/files/{branch}/{sem}')
     return render_template('download.html')
+
+@app.route('/files/<branch>/<sem>')
+def files(branch, sem):
+    files = bucket.list_blobs(prefix=f'{branch}/{sem}')
+    filenames = []
+    for f in files:
+        print(f.name)
+        # name = f.name.split('/')[2]
+        filenames.append(f.name)
+        # string = f.download_as_string()
+        # pdfFileObj = open(f'{name}', 'wb')
+        # pdfFileObj.write(string)
+        # pdfFileObj.close()
+    return render_template('files.html',files=filenames)
+        
+@app.route('/files/<branch>/<sem>/<fileName>')
+def downloadFile(branch, sem, fileName):
+    files = bucket.list_blobs(prefix=f'{branch}/{sem}/{fileName}')
+    for f in files:
+        string = f.download_as_string()
+        pdfFileObj = open(f'/tmp/{fileName}', 'wb')
+        pdfFileObj.write(string)
+        pdfFileObj.close()
+        send_file(fileName,fileName,as_attachment=True)
+    return redirect(f'/files/{branch}/{sem}')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
