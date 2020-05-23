@@ -282,7 +282,7 @@ def downloadFile(branch, sem, fileName):
         pdfFileObj = open(f'/tmp/{fileName}', 'wb')
         pdfFileObj.write(string)
         pdfFileObj.close()
-        send_file(f'/tmp/{fileName}',fileName,as_attachment=True)
+        return send_file(f'/tmp/{fileName}',fileName,as_attachment=True)
     return redirect(f'/files/{branch}/{sem}')
 
 @app.route('/contact', methods=['GET', 'POST'])
