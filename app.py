@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 import json
+
 from datetime import timedelta
 import time
 import pyrebase
@@ -10,12 +11,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+import os
 
-
-cred = firebase.credentials.Certificate("firebaseKey.json")
-keyFile = open('pyrebaseKey.json','r')
-keyJson = keyFile.read()
-key = json.loads(keyJson)
+if os.name == 'nt':
+    cred = firebase.credentials.Certificate("firebaseKey.json")
+    keyFile = open('pyrebaseKey.json','r')
+    keyJson = keyFile.read()
+    key = json.loads(keyJson)
+else:
+    cred = firebase.credentials.Certificate(json.loads(os.environ.get('FIREBASE')))
+    key = json.loads(os.environ.get('PYREBASE'))
 
 firebase.initialize_app(cred,{'storageBucket':'updown-nie.appspot.com'})
 db = firestore.client() #USE FOR DATABASE
@@ -44,7 +49,7 @@ def sendQueryAckToUser(email, name):
     </head>
     <body>
         <p>Dear %s,</p>
-        <p>Thank you for signing up at UP-DOWN!<br/>
+        <p>Thank you for contacting us!<br/>
         We whave recieved your message/query!<br/>
         One of our teammates will get in tough with you shortly.</p><br/>
         <p>Thanks & Regards,<br/>
