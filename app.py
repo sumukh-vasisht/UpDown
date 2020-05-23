@@ -249,7 +249,7 @@ def upload():
             else:
                 message = "All files uploaded successfully"
         return render_template('upload.html', message = message)
-    else:
+    else: 
         return redirect(url_for('login'))
 
 @app.route('/download',methods=["GET","POST"])
