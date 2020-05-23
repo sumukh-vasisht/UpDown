@@ -44,7 +44,7 @@ def sendQueryAckToUser(email, name):
     </head>
     <body>
         <p>Dear %s,</p>
-        <p>Thank you for signing up at UP-DOWN!<br/>
+        <p>Thank you for contacting us!<br/>
         We whave recieved your message/query!<br/>
         One of our teammates will get in tough with you shortly.</p><br/>
         <p>Thanks & Regards,<br/>
