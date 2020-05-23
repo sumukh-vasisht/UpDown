@@ -22,7 +22,7 @@ db = firestore.client() #USE FOR DATABASE
 bucket = storage.bucket()
 auth = pyrebase.initialize_app(key).auth() #USE FOR AUTHENTICATION
 app = Flask(__name__)
-app.secret_key = "(TIJUUV_DBOOPU_DPEF)-1"
+app.secret_key = "(TIJUUV_DBO_DPEF)-1" #Sunuffabich
 
 def sendQueryAckToUser(email, name):
     senderAddress = "updown.updown.website@gmail.com"
@@ -255,7 +255,12 @@ def download():
         filenames = []
         files = bucket.list_blobs(prefix=f'{branch}/{sem}')
         for f in files:
-            print(f.name) 
+            print(f.name)
+            name = f.name.split('/')[2]
+            string = f.download_as_string()
+            pdfFileObj = open(f'{name}', 'wb')
+            pdfFileObj.write(string)
+            pdfFileObj.close()
     return render_template('download.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
