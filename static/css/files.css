@@ -28,3 +28,7 @@ body{
     padding-bottom: 10px;
     font-size: 20px;
 }
+
+.notesBox a {
+    color: aliceblue;
+}
