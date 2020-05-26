@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Files</title>
-</head>
-<body>
-    {% for file in files %}
-    <a href="/files/{{file}}">{{file.split('/')[2]}}</a><br>
-    {% endfor %}
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Download | Updown</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/files.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/footer.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/navigationBar.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    </head>
+
+    <body>
+
+        <div class="navbar">
+            <a href = "/" style="width: 50%;">UP-DOWN</a>
+            <a href="/" class = "btn" style="width: 10%;"><i class="fa fa-fw fa-home"></i> Home</a> 
+            <a href="/upload" class = "btn" style="width: 10%;"><i class="fa fa-fw fa-upload"></i> Upload</a> 
+            <a href="/download" class = "btn" style="width: 10%;"><i class="fa fa-fw fa-download"></i> Download</a> 
+            <a class = "btn" href="/contact" style="width: 10%;"><i class="fa fa-fw fa-envelope"></i> Contact</a> 
+            <a href="/logout" class = "btn" style="width: 10%;"><i class="fa fa-fw fa-user"></i> Logout</a>
+        </div>
+
+        {% for file in files %}
+        <a href="/files/{{file}}">{{file.split('/')[2]}}</a><br>
+        {% endfor %}
+        
+    </body>
 </html>
