@@ -75,8 +75,9 @@ body{
 
 .uploadWrapper{
     position: fixed;
-    top: 40%;
+    top: 50%;
     left: 50%;
+    margin-bottom: 20px;
     transform: translate(-50%, -50%);
 }
   
@@ -149,7 +150,7 @@ body{
 
 .downloadWrapper{
     position: fixed;
-    top: 50%;
+    top: 62%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -218,6 +219,9 @@ body{
 }
 
 /*------------------------------------------Download Button ends----------------------------*/
+
+
+
 
 
 

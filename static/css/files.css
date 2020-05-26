@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
+body{
+    margin: 0;
+    padding: 0;
+    background: url(../images/books4.png) no-repeat center fixed;
+    background-size: cover;
+    background-position: center;
+    font-family: 'Roboto';
+    text-align:center;
+    overflow:scroll;
+}
