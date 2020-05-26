@@ -254,36 +254,45 @@ def upload():
 
 @app.route('/download',methods=["GET","POST"])
 def download():
-    if request.method == "POST":
-        branch = request.form['branch']
-        sem = request.form['semester']
-        return redirect(f'/files/{branch}/{sem}')
-    return render_template('download.html')
+    if 'token' in session:
+        if request.method == "POST":
+            branch = request.form['branch']
+            sem = request.form['semester']
+            return redirect(f'/files/{branch}/{sem}')
+        return render_template('download.html')
+    else: 
+        return redirect(url_for('login'))
 
 @app.route('/files/<branch>/<sem>')
 def files(branch, sem):
-    files = bucket.list_blobs(prefix=f'{branch}/{sem}')
-    filenames = []
-    for f in files:
-        print(f.name)
-        # name = f.name.split('/')[2]
-        filenames.append(f.name)
-        # string = f.download_as_string()
-        # pdfFileObj = open(f'{name}', 'wb')
-        # pdfFileObj.write(string)
-        # pdfFileObj.close()
-    return render_template('files.html',files=filenames)
+    if 'token' in session:
+        files = bucket.list_blobs(prefix=f'{branch}/{sem}')
+        filenames = []
+        for f in files:
+            print(f.name)
+            # name = f.name.split('/')[2]
+            filenames.append(f.name)
+            # string = f.download_as_string()
+            # pdfFileObj = open(f'{name}', 'wb')
+            # pdfFileObj.write(string)
+            # pdfFileObj.close()
+        return render_template('files.html',files=filenames)
+    else: 
+        return redirect(url_for('login'))
         
 @app.route('/files/<branch>/<sem>/<fileName>')
 def downloadFile(branch, sem, fileName):
-    files = bucket.list_blobs(prefix=f'{branch}/{sem}/{fileName}')
-    for f in files:
-        string = f.download_as_string()
-        pdfFileObj = open(f'/tmp/{fileName}', 'wb')
-        pdfFileObj.write(string)
-        pdfFileObj.close()
-        return send_file(f'/tmp/{fileName}',fileName,as_attachment=True)
-    return redirect(f'/files/{branch}/{sem}')
+    if 'token' in session:
+        files = bucket.list_blobs(prefix=f'{branch}/{sem}/{fileName}')
+        for f in files:
+            string = f.download_as_string()
+            pdfFileObj = open(f'/tmp/{fileName}', 'wb')
+            pdfFileObj.write(string)
+            pdfFileObj.close()
+            return send_file(f'/tmp/{fileName}',fileName,as_attachment=True)
+        return redirect(f'/files/{branch}/{sem}')
+    else: 
+        return redirect(url_for('login'))
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
